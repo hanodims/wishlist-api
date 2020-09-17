@@ -4,6 +4,8 @@ from items.models import Item, FavoriteItem
 from .serializers import RegisterSerializer,ItemListSerializer,ItemDetailsSerializer
 from rest_framework.filters import SearchFilter,OrderingFilter
 
+from rest_framework.permissions import AllowAny
+
 # Create your views here.
 
 class Register(CreateAPIView):
@@ -11,11 +13,11 @@ class Register(CreateAPIView):
 
 
 class ItemList(ListAPIView):
-    queryset = Item.objects.all()
-    serializer_class = ItemListSerializer
-    filter_backends = [SearchFilter,OrderingFilter,]
-    search_fields = ['name']
-
+	queryset = Item.objects.all()
+	serializer_class = ItemListSerializer
+	filter_backends = [SearchFilter,OrderingFilter,]
+	search_fields = ['name']
+	permission_classes = [AllowAny]
 
 class ItemDetail(RetrieveAPIView):
 	queryset = Item.objects.all()
