@@ -5,6 +5,7 @@ from .serializers import RegisterSerializer,ItemListSerializer,ItemDetailsSerial
 from rest_framework.filters import SearchFilter,OrderingFilter
 
 from rest_framework.permissions import AllowAny
+from .permissions import IsOwner
 
 # Create your views here.
 
@@ -24,3 +25,4 @@ class ItemDetail(RetrieveAPIView):
 	serializer_class = ItemDetailsSerializer
 	lookup_field = 'id'
 	lookup_url_kwarg = 'item_id'
+	permission_classes = [IsOwner]
