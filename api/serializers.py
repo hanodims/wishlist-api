@@ -43,12 +43,26 @@ class ItemListSerializer(serializers.ModelSerializer):
         hearts = FavoriteItem.objects.filter(item=obj)
         return hearts.count()
 
+class FavoriteItemSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    class Meta:
+        model= FavoriteItem
+        fields = ['user']
 
 
 
 class ItemDetailsSerializer(serializers.ModelSerializer):
+    favourited_by = serializers.SerializerMethodField()
     class Meta:
         model = Item
-        fields = '__all__'
+        fields = ['image', 'name','description' ,'added_by', 'favourited_by'] 
+
+    def get_favourited_by(self, obj):
+        item_obj = FavoriteItem.objects.filter(item=obj)
+        #users = FavoriteItem.objects.filter(item=item_obj)
+        users = FavoriteItemSerializer(item_obj, many = True).data
+        return users
+        
+        
 
 
