@@ -34,9 +34,14 @@ class ItemListSerializer(serializers.ModelSerializer):
         lookup_url_kwarg = "item_id"
         )
     added_by = UserSerializer()
+    favourited = serializers.SerializerMethodField()
     class Meta:
         model = Item
-        fields = ['image', 'name','detail', 'added_by']
+        fields = ['image', 'name','detail', 'added_by', 'favourited']
+
+    def get_favourited(self, obj):
+        hearts = FavoriteItem.objects.filter(item=obj)
+        return hearts.count()
 
 
 
